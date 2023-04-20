@@ -2,21 +2,45 @@
 {
     public class RenewalDataRepository
     {
-        private readonly List<RenewalData> _renewalDataList;
+        private List<RenewalData> _renewalDataList;
 
         public RenewalDataRepository()
         {
             _renewalDataList = new List<RenewalData>();
         }
 
-        public IEnumerable<RenewalData> GetRenewalDataBeforeJan1st()
-        {
-            return _renewalDataList.Where(data => data.IsBeforeJan1st);
-        }
-
+        // Create
         public void AddRenewalData(RenewalData renewalData)
         {
-            _renewalDataList.Add(renewalData);
+            if (renewalData.IsBefore1stJan2020())
+            {
+                _renewalDataList.Add(renewalData);
+            }
+        }
+
+        // Read
+        public List<RenewalData> GetAllRenewalData()
+        {
+            return _renewalDataList;
+        }
+
+        // Update
+        public void UpdateRenewalData(RenewalData renewalData)
+        {
+            if (renewalData.IsBefore1stJan2020())
+            {
+                _renewalDataList.RemoveAll(x => x.ReceiveDate == renewalData.ReceiveDate);
+                _renewalDataList.Add(renewalData);
+            }
+        }
+
+        // Delete
+        public void DeleteRenewalData(RenewalData renewalData)
+        {
+            if (renewalData.IsBefore1stJan2020())
+            {
+                _renewalDataList.RemoveAll(x => x.ReceiveDate == renewalData.ReceiveDate);
+            }
         }
     }
 }
