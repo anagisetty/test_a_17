@@ -1,39 +1,52 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
+﻿using System;
+using System.Collections.Generic;
+using Test_a_17;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Test_A_17
+namespace Test_a_17.Controllers
 {
-    public class RenewalDataController : ApiController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RenewalDataController : ControllerBase
     {
-        private RenewalDataService _renewalDataService;
+        private readonly RenewalDataService _renewalDataService;
 
-        public RenewalDataController()
+        public RenewalDataController(RenewalDataService renewalDataService)
         {
-            _renewalDataService = new RenewalDataService();
+            _renewalDataService = renewalDataService;
         }
-
+        
         [HttpPost]
-        public void ReceiveRenewalDataBefore1stJan2020([FromBody] RenewalData renewalData)
+        public void CreateRenewalData(RenewalData renewalData)
         {
-            _renewalDataService.ReceiveRenewalDataBefore1stJan2020(renewalData);
+            if(renewalData.RenewalDate >= DateTime.Now)
+            {
+                _renewalDataService.CreateRenewalData(renewalData);
+            }
         }
 
-        [HttpGet]
-        public List<RenewalData> GetAllRenewalData()
+        [HttpGet("{id}")]
+        public RenewalData GetRenewalData(int id)
         {
-            return _renewalDataService.GetAllRenewalData();
+            return _renewalDataService.GetRenewalData(id);
+        }
+
+        [HttpGet("before1stJan2020")]
+        public List<RenewalData> GetRenewalDataBefore1stJan2020()
+        {
+            return _renewalDataService.GetRenewalDataBefore1stJan2020();
         }
 
         [HttpPut]
-        public void UpdateRenewalDataBefore1stJan2020([FromBody] RenewalData renewalData)
+        public void UpdateRenewalData(RenewalData renewalData)
         {
-            _renewalDataService.UpdateRenewalDataBefore1stJan2020(renewalData);
+            _renewalDataService.UpdateRenewalData(renewalData);
         }
 
-        [HttpDelete]
-        public void DeleteRenewalDataBefore1stJan2020([FromBody] RenewalData renewalData)
+        [HttpDelete("{id}")]
+        public void DeleteRenewalData(int id)
         {
-            _renewalDataService.DeleteRenewalDataBefore1stJan2020(renewalData);
+            _renewalDataService.DeleteRenewalData(id);
         }
     }
 }

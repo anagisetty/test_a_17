@@ -1,41 +1,40 @@
-﻿namespace Test_A_17
+﻿namespace Test_a_17
 {
     public class RenewalDataService
     {
-        private RenewalDataRepository _renewalDataRepository;
+        private readonly RenewalDataRepository _renewalDataRepository;
 
-        public RenewalDataService()
+        public RenewalDataService(RenewalDataRepository renewalDataRepository)
         {
-            _renewalDataRepository = new RenewalDataRepository();
+            _renewalDataRepository = renewalDataRepository;
         }
 
-        public void ReceiveRenewalDataBefore1stJan2020(RenewalData renewalData)
+        public void CreateRenewalData(RenewalData renewalData)
         {
-            if (renewalData.IsBefore1stJan2020())
+            if(renewalData.RenewalDate >= DateTime.Now)
             {
-                _renewalDataRepository.AddRenewalData(renewalData);
+                _renewalDataRepository.CreateRenewalData(renewalData);
             }
         }
 
-        public List<RenewalData> GetAllRenewalData()
+        public RenewalData GetRenewalData(int id)
         {
-            return _renewalDataRepository.GetAllRenewalData();
+            return _renewalDataRepository.GetRenewalData(id);
         }
 
-        public void UpdateRenewalDataBefore1stJan2020(RenewalData renewalData)
+        public List<RenewalData> GetRenewalDataBefore1stJan2020()
         {
-            if (renewalData.IsBefore1stJan2020())
-            {
-                _renewalDataRepository.UpdateRenewalData(renewalData);
-            }
+            return _renewalDataRepository.GetRenewalDataBefore1stJan2020();
         }
 
-        public void DeleteRenewalDataBefore1stJan2020(RenewalData renewalData)
+        public void UpdateRenewalData(RenewalData renewalData)
         {
-            if (renewalData.IsBefore1stJan2020())
-            {
-                _renewalDataRepository.DeleteRenewalData(renewalData);
-            }
+            _renewalDataRepository.UpdateRenewalData(renewalData);
+        }
+
+        public void DeleteRenewalData(int id)
+        {
+            _renewalDataRepository.DeleteRenewalData(id);
         }
     }
 }

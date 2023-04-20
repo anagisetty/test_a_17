@@ -1,46 +1,37 @@
-﻿namespace Test_A_17
+﻿namespace Test_a_17
 {
     public class RenewalDataRepository
     {
-        private List<RenewalData> _renewalDataList;
-
-        public RenewalDataRepository()
+        public void CreateRenewalData(RenewalData renewalData)
         {
-            _renewalDataList = new List<RenewalData>();
-        }
-
-        // Create
-        public void AddRenewalData(RenewalData renewalData)
-        {
-            if (renewalData.IsBefore1stJan2020())
+            if(renewalData.RenewalDate >= DateTime.Now)
             {
-                _renewalDataList.Add(renewalData);
+                //Database code to create renewal data
             }
         }
 
-        // Read
-        public List<RenewalData> GetAllRenewalData()
+        public RenewalData GetRenewalData(int id)
         {
-            return _renewalDataList;
+            //Database code to get renewal data by id
+            return new RenewalData();
         }
 
-        // Update
+        public List<RenewalData> GetRenewalDataBefore1stJan2020()
+        {
+            var renewalDataList = new List<RenewalData>();
+
+            //Database code to get renewal data before 1st Jan 2020
+            return renewalDataList;
+        }
+
         public void UpdateRenewalData(RenewalData renewalData)
         {
-            if (renewalData.IsBefore1stJan2020())
-            {
-                _renewalDataList.RemoveAll(x => x.ReceiveDate == renewalData.ReceiveDate);
-                _renewalDataList.Add(renewalData);
-            }
+            //Database code to update renewal data
         }
 
-        // Delete
-        public void DeleteRenewalData(RenewalData renewalData)
+        public void DeleteRenewalData(int id)
         {
-            if (renewalData.IsBefore1stJan2020())
-            {
-                _renewalDataList.RemoveAll(x => x.ReceiveDate == renewalData.ReceiveDate);
-            }
+            //Database code to delete renewal data by id
         }
     }
 }
